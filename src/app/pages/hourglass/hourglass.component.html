@@ -1,0 +1,27 @@
+<div id="hourglass-container">
+	<form (ngSubmit)="onSubmit()" [formGroup]="checkoutForm">
+		<app-input
+			formControlName="size"
+			label="Size"
+			name="size"
+			type="number"
+			value="{{checkoutForm.value.size}}"
+		></app-input>
+		<app-button title="Recomeçar"> </app-button>
+		<app-toast></app-toast>
+	</form>
+	<div id="hourglass">
+		<div *ngIf="getSize() >= 3">
+			<div class="hourglass-row" *ngFor="let row of hourglass">
+				<div class="hourglass-column" *ngFor="let col of row;">
+					<div *ngIf="col && row">
+						<app-piece-of-sand></app-piece-of-sand>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="getSize() <= 2" id="no-size-message-box">
+			<p>Não foi inserido o tamanho da ampulheta.</p>
+		</div>
+	</div>
+</div>

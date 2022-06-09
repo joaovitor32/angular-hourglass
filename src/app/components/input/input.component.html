@@ -1,0 +1,15 @@
+<div
+	class="input-container"
+	[ngStyle]="{'border': getIsFilledInput()? '1px solid var(--lighter-input-color)' :null}"
+>
+	<input
+		name="{{name}}"
+		type="{{type}}"
+		value="{{_value}}"
+		class="input"
+		[(ngModel)]="_value"
+	/>
+	<label class="label" [ngClass]="{'hover-label': getIsFilledInput()}"
+		>{{label}}</label
+	>
+</div>

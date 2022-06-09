@@ -1,0 +1,17 @@
+.button{
+    background: var(--button-color);
+    height:40px;
+    border-radius:10px;
+    border:0;
+    padding:0 16px;
+    width:100%;
+    color:var(--button-title-color);
+    font-weight:500;
+    margin-top:16px;
+    transition:0.2s;
+    
+    &:hover {
+        background-color: var(--normal-button-color);
+        color: var(--hovered-button-title-color)
+    }
+}

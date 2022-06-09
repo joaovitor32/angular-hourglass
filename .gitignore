@@ -40,3 +40,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+node_modules
+dist
+packages
+.webpack
+out
+package-lock.json
+dist
+/coverage/*

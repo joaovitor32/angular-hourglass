@@ -1,0 +1,27 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    outline:0;
+    --sand-color: #C2B280;
+    --background-color: #ECE5D3;
+    --input-color: #643e1e;
+    --error-color: red;
+    --normal-button-color: #FF9000;
+    --button-color: #{lighten(#FF9000, 12%)};
+    --button-title-color: #{lighten(#643e1e, 8%)};
+    --hovered-button-title-color: #{lighten(#643e1e, 56%)};
+    --lighter-input-color: #{lighten(#643e1e, 24%)};
+}
+
+body{
+    -webkit-font-smoothing:antialiased;
+}
+body,input,button{
+    font-family:'Roboto Slab',serif;
+    font-size:16px;
+}
+h1,h2,h3,h4,h4,h6,strong{
+    font-weight:500;
+    cursor:pointer;
+}

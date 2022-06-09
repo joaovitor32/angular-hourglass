@@ -1,0 +1,65 @@
+$rotation-time: 8s;
+
+@mixin default-cross{
+    content: "";
+    position: absolute;
+    background: var(--sand-color);
+}
+
+@mixin vertical-cross{
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+@mixin horizontal-cross{
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
+}
+
+@mixin rotate($from: 0deg, $to: 180deg){
+    @keyframes rotation {
+        from {
+          transform: rotate($from);
+        }
+        to {
+          transform: rotate($to);
+        }
+      }
+}
+
+.sand-block {
+    width: 4rem;
+    height: 4rem;
+    position: relative;
+    animation: rotation $rotation-time infinite linear;
+    @include rotate(0deg, 359deg)
+}
+ 
+.centered-cross:before,
+.centered-cross:after,
+.diagonalized-cross:before, .diagonalized-cross:after {
+    @include default-cross()
+}
+ 
+.centered-cross:before {
+    @include vertical-cross()
+}
+ 
+.centered-cross:after {
+    @include horizontal-cross()
+}
+  
+.diagonalized-cross:before {
+    @include vertical-cross();
+    transform: rotate(45deg);
+}
+  
+.diagonalized-cross:after {
+    @include horizontal-cross();
+    transform: rotate(225deg);
+}
+  
