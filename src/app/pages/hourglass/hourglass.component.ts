@@ -45,11 +45,11 @@ export class HourglassComponent implements OnInit {
 
 	buildHourglass() {
 		this.hourglass = Array(this.getSize()).fill(
-			Array(this.getSize()).fill(true)
+			Array(this.getSize()).fill(false)
 		) as boolean[][];
+
 		this.centerIndex = (this.getSize() - 1) / 2;
 
-		this.fillUpperTriangle();
 		this.startHourglass();
 	}
 
@@ -101,31 +101,58 @@ export class HourglassComponent implements OnInit {
 		);
 	}
 
-	fillUpperTriangle() {
-		this.hourglass = this.hourglass.map((row, rowIndex) => {
-			return row.map((_, columnIndex) => {
+	removeUpperLeftEdge(rowIndex: number, columnIndex: number) {
+		return rowIndex - columnIndex <= 0;
+	}
+
+	removeUpperRightEdge(rowIndex: number, columnIndex: number) {
+		return this.getSize() - columnIndex - rowIndex > 0;
+	}
+
+	removeLowerLeftEdge(rowIndex: number, columnIndex: number) {
+		return rowIndex - columnIndex > -1;
+	}
+
+	removeRightLeftEdge(rowIndex: number, columnIndex: number) {
+		return this.getSize() - columnIndex - rowIndex <= 1;
+	}
+
+	checkColumn({ row, rowIndex, currentTime }: CheckRowInterface) {
+		const checkHourglassQuadrant =
+			rowIndex + currentTime >= this.getSize() - 1;
+
+		return row.map((column, columnIndex) => {
+			const removeUpperLeftEdge = this.removeUpperLeftEdge(
+				rowIndex,
+				columnIndex
+			);
+			const removeUpperRightEdge = this.removeUpperRightEdge(
+				rowIndex,
+				columnIndex
+			);
+
+			const removeLowerLeftEdge = this.removeLowerLeftEdge(
+				rowIndex,
+				columnIndex
+			);
+
+			const removeLowerRightEdge = this.removeRightLeftEdge(
+				rowIndex,
+				columnIndex
+			);
+
+			if (checkHourglassQuadrant)
+				return removeLowerLeftEdge && removeLowerRightEdge;
+
+			if (currentTime <= rowIndex) {
 				const isCenter = this.centerOfMatrix(rowIndex, columnIndex);
 
-				const removeLeftEdge = rowIndex - columnIndex <= 0;
-				const removeRightEdge =
-					this.getSize() - columnIndex - rowIndex > 0;
-
-				return (removeLeftEdge && removeRightEdge) || isCenter;
-			});
-		});
-	}
-	// Validate column and row inside the following function
-	checkColumn({ row, rowIndex, currentTime }: CheckRowInterface) {
-		return row.map((column, columnIndex) => {
-			const removeLeftEdge = rowIndex - columnIndex > 0;
-			const removeRightEdge =
-				this.getSize() - columnIndex - rowIndex <= 0;
-
-			if (rowIndex + currentTime <= this.getSize() - 1) {
-				return false;
+				return (
+					(removeUpperLeftEdge && removeUpperRightEdge) || isCenter
+				);
 			}
 
-			return removeLeftEdge && removeRightEdge;
+			return false;
 		});
 	}
 	checkRow(currentTime: number) {
@@ -135,8 +162,14 @@ export class HourglassComponent implements OnInit {
 	}
 
 	startHourglass() {
-		const timer = interval(1500).subscribe((currentTime) => {
-			if (currentTime === this.getSize() - 1) {
+		const sizeRemainder = this.getSize() % 2 === 0;
+
+		const size = sizeRemainder
+			? this.getSize() / 2
+			: (this.getSize() - 1) / 2;
+
+		const timer = interval(1000).subscribe((currentTime) => {
+			if (currentTime === size) {
 				timer.unsubscribe();
 			}
 

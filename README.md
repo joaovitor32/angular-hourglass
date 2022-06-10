@@ -18,3 +18,5 @@ ng serve
 
 * Angular
 * SASS
+
+![Hourglass](images/hourglass.png)
